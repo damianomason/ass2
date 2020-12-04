@@ -26,7 +26,7 @@ jobs:
     - uses: sarisia/actions-status-discord@v1
       if: always()
       with:
-        webhook: ${{ https://discord.com/api/webhooks/784478570751197254/feVHOkdcL-KTXwpuFpcMnC35SImJ9H8SA57RUnqXw3-TonKuNssaaA8QaEv_ezBEU-Ap }}
+        webhook: ${{ secrets.DISCORD_WEBHOOK }}
         status: ${{ job.status }}
         
     #- name: Discord Notifier
