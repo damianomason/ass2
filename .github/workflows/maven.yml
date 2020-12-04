@@ -1,0 +1,35 @@
+# This workflow will build a Java project with Maven
+# For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-maven
+
+name: Java CI with Maven
+
+on:
+  push:
+    branches: [ actions-test ]
+  pull_request:
+    branches: [ actions-test ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up JDK 1.8
+      uses: actions/setup-java@v1
+      with:
+        java-version: 1.8
+    - name: Build with Maven
+      run: mvn clean install
+      
+    - name: Discord Notifier
+      # You may pin to the exact commit or the version.
+      # uses: fateyan/action-discord-notifier@2d543d3e7e2c63546420b10f2652cb61e24578fc
+      uses: fateyan/action-discord-notifier@v1.2.0
+      with:
+        # A full discord webhook url
+        webhook: https://discord.com/api/webhooks/784478570751197254/feVHOkdcL-KTXwpuFpcMnC35SImJ9H8SA57RUnqXw3-TonKuNssaaA8QaEv_ezBEU-Ap
+       # Message title
+        message-title: Build Result
+        
