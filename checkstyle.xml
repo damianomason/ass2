@@ -3,9 +3,10 @@
 <module name="Checker">
 	<module name="FileLength"/>
 	<module name="FileTabCharacter" />
-	<module name="Header">
+	<!-- <module name="Header">
 		<property name="header" value="////////////////////////////////////////////////////////////////////\n// [Damiano] [Mason] [1201160]\n////////////////////////////////////////////////////////////////////" />
-	</module>
+    <property name="fileExtensions" value="java" />
+	</module> -->
 	<module name="TreeWalker">
 		<module name="BooleanExpressionComplexity">
 			<property name="max" value="7" />
