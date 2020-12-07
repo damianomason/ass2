@@ -11,6 +11,8 @@ import it.unipd.tos.model.User;
 
 public class TakeAwayManager implements TakeAwayBill{
 
+    private final double commission = 0.5;
+
     public double getOrderPrice(List<MenuItem> itemsOrdered, User user) throws TakeAwayBillException {
         if(itemsOrdered.size() > 30) {
             throw new TakeAwayBillException("Non ci possono essere più di 30 elementi nell'ordine");
@@ -43,7 +45,12 @@ public class TakeAwayManager implements TakeAwayBill{
         if(totalFood > 50.0) {
             totalFood -= (totalFood*0.1);
         }
-
-        return totalFood + totalDrink;
+        double total = totalFood + totalDrink;
+        if(total <= 10.0) {
+            return total + commission;
+        }
+        else {
+            return total;
+        }
     }
 }

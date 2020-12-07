@@ -27,7 +27,7 @@ public class TakeAwayManagerTest {
         itemsOrdered.add(new MenuItem("Coca cola", MenuItem.items.Bevanda, 1.50));
 
         try {
-            assertEquals(8.00, testBill.getOrderPrice(itemsOrdered, user), 0.0);
+            assertEquals(8.50, testBill.getOrderPrice(itemsOrdered, user), 0.0);
         } catch (TakeAwayBillException e) {
             System.out.println(e.getMessage());
         }
@@ -126,9 +126,43 @@ public class TakeAwayManagerTest {
         TakeAwayManager testBill = new TakeAwayManager();
         User user = new User("Pino", 17);
 
-        for(int i = 1; i <= 40; i++)
+        for (int i = 1; i <= 40; i++)
             itemsOrdered.add(new MenuItem("Greedy Cream", MenuItem.items.Gelato, 4.00));
 
         testBill.getOrderPrice(itemsOrdered, user);
+    }
+
+    @Test
+    public void ShowExceptionMessageToEmployTest() throws TakeAwayBillException {
+        List<MenuItem> itemsOrdered = new ArrayList<MenuItem>();
+        TakeAwayManager testBill = new TakeAwayManager();
+        User user = new User("Pino", 17);
+
+        for(int i = 1; i <= 40; i++)
+            itemsOrdered.add(new MenuItem("Greedy Cream", MenuItem.items.Gelato, 4.00));
+
+        try {
+            testBill.getOrderPrice(itemsOrdered, user);
+        }
+        catch(TakeAwayBillException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+
+    @Test
+    public void PayCommissionTest() throws TakeAwayBillException {
+        List<MenuItem> itemsOrdered = new ArrayList<MenuItem>();
+        TakeAwayManager testBill = new TakeAwayManager();
+        User user = new User("Pino", 17);
+
+        itemsOrdered.add(new MenuItem("Pinguino" , MenuItem.items.Budino, 3.00));
+
+        try {
+            assertEquals(3.5, testBill.getOrderPrice(itemsOrdered, user), 0.0);
+        }
+        catch (TakeAwayBillException exc){
+            exc.getMessage();
+        }
     }
 }
