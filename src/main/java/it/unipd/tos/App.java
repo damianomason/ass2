@@ -11,7 +11,10 @@ public class App
         System.out.println( "Hello World!" );
     }
     
-    public void notCovered() {
-        System.out.println( "This code is not covered" );
+    public static String covered() {
+        return "This code is covered";
+    }
+    public static String notCovered() {
+        return "This code is not covered";
     }
 }
