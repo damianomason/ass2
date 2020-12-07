@@ -15,9 +15,9 @@ import static org.junit.Assert.assertEquals;
 import it.unipd.tos.model.User;
 import org.junit.Test;
 
-public class TakeAwayManagerTest{
+public class TakeAwayManagerTest {
     @Test
-    public void CalculateBillTotalTest(){
+    public void CalculateBillTotalTest() {
         List<MenuItem> itemsOrdered = new ArrayList<MenuItem>();
         TakeAwayManager testBill = new TakeAwayManager();
         User user = new User("Pino", 17);
@@ -26,10 +26,53 @@ public class TakeAwayManagerTest{
         itemsOrdered.add(new MenuItem("Pinguino", MenuItem.items.Budino, 2.50));
         itemsOrdered.add(new MenuItem("Coca cola", MenuItem.items.Bevanda, 1.50));
 
-        try{
+        try {
             assertEquals(8.00, testBill.getOrderPrice(itemsOrdered, user), 0.0);
+        } catch (TakeAwayBillException e) {
+            System.out.println(e.getMessage());
         }
-        catch (TakeAwayBillException e){
+    }
+
+    @Test
+    public void HalvedPriceOnCheapestIceCreamWithFiveOrMoreIceCreamsTest() {
+        List<MenuItem> itemsOrdered = new ArrayList<MenuItem>();
+        TakeAwayManager testBill = new TakeAwayManager();
+        User user = new User("Pino", 17);
+
+        itemsOrdered.add(new MenuItem("Banana split", MenuItem.items.Gelato, 4.00));
+        itemsOrdered.add(new MenuItem("Coca cola", MenuItem.items.Bevanda, 1.50));
+        itemsOrdered.add(new MenuItem("Coppa nafta", MenuItem.items.Gelato, 3.50));
+        itemsOrdered.add(new MenuItem("Cremino", MenuItem.items.Gelato, 4.00));
+        itemsOrdered.add(new MenuItem("Buonino", MenuItem.items.Budino, 3.00));
+        itemsOrdered.add(new MenuItem("Cremino", MenuItem.items.Gelato, 4.00));
+        itemsOrdered.add(new MenuItem("Coca cola", MenuItem.items.Bevanda, 1.50));
+        itemsOrdered.add(new MenuItem("Coppa del nonno", MenuItem.items.Gelato, 3.50));
+        itemsOrdered.add(new MenuItem("Bombardino", MenuItem.items.Gelato, 4.00));
+        itemsOrdered.add(new MenuItem("Biancaneve", MenuItem.items.Budino, 3.00));
+
+        try {
+            assertEquals(30.25, testBill.getOrderPrice(itemsOrdered, user), 0.0);
+        } catch (TakeAwayBillException e) {
+            System.out.println(e.getMessage());
+        }
+    }@Test
+    public void NotHalvedPriceOnCheapestIceCreamWithFiveOrLessIceCreamsTest() {
+        List<MenuItem> itemsOrdered = new ArrayList<MenuItem>();
+        TakeAwayManager testBill = new TakeAwayManager();
+        User user = new User("Pino", 17);
+
+        itemsOrdered.add(new MenuItem("Coca cola", MenuItem.items.Bevanda, 1.50));
+        itemsOrdered.add(new MenuItem("Cremino", MenuItem.items.Gelato, 4.00));
+        itemsOrdered.add(new MenuItem("Buonino", MenuItem.items.Budino, 3.00));
+        itemsOrdered.add(new MenuItem("Cremino", MenuItem.items.Gelato, 4.00));
+        itemsOrdered.add(new MenuItem("Coca cola", MenuItem.items.Bevanda, 1.50));
+        itemsOrdered.add(new MenuItem("Coppa del nonno", MenuItem.items.Gelato, 3.50));
+        itemsOrdered.add(new MenuItem("Bombardino", MenuItem.items.Gelato, 4.00));
+        itemsOrdered.add(new MenuItem("Biancaneve", MenuItem.items.Budino, 3.00));
+
+        try {
+            assertEquals(24.50, testBill.getOrderPrice(itemsOrdered, user), 0.0);
+        } catch (TakeAwayBillException e) {
             System.out.println(e.getMessage());
         }
     }
