@@ -12,6 +12,6 @@ public class App
     }
     
     public void notCovered() {
-        Sytstem.out.println( "This code is not covered" );
+        System.out.println( "This code is not covered" );
     }
 }
