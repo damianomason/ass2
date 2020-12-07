@@ -1,3 +1,6 @@
+////////////////////////////////////////////////////////////////////
+// [Damiano] [Mason] [1201160]
+////////////////////////////////////////////////////////////////////
 package it.unipd.tos;
 
 /**
@@ -7,7 +10,5 @@ package it.unipd.tos;
 public class App 
 {
     public static void main( String[] args )
-    {
-        System.out.println( "Hello World!" );
-    }
+    {System.out.println( "Hello World!" ); }
 }
