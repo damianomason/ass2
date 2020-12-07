@@ -13,6 +13,9 @@ public class TakeAwayManager implements TakeAwayBill{
 
     public double getOrderPrice(List<MenuItem> itemsOrdered, User user) throws TakeAwayBillException {
         double total = 0.0;
+        for (MenuItem menuItem : itemsOrdered) {
+            total += menuItem.getPrice();
+        }
         return total;
     }
 }
