@@ -119,4 +119,16 @@ public class TakeAwayManagerTest {
             System.out.println(e.getMessage());
         }
     }
+
+    @Test(expected = TakeAwayBillException.class)
+    public void MoreThan30ElementsInBillTest() throws TakeAwayBillException {
+        List<MenuItem> itemsOrdered = new ArrayList<MenuItem>();
+        TakeAwayManager testBill = new TakeAwayManager();
+        User user = new User("Pino", 17);
+
+        for(int i = 1; i <= 40; i++)
+            itemsOrdered.add(new MenuItem("Greedy Cream", MenuItem.items.Gelato, 4.00));
+
+        testBill.getOrderPrice(itemsOrdered, user);
+    }
 }

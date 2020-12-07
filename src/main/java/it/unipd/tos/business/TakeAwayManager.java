@@ -3,7 +3,6 @@
 ////////////////////////////////////////////////////////////////////
 package it.unipd.tos.business;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import it.unipd.tos.business.exception.TakeAwayBillException;
@@ -13,6 +12,10 @@ import it.unipd.tos.model.User;
 public class TakeAwayManager implements TakeAwayBill{
 
     public double getOrderPrice(List<MenuItem> itemsOrdered, User user) throws TakeAwayBillException {
+        if(itemsOrdered.size() > 30) {
+            throw new TakeAwayBillException("Non ci possono essere più di 30 elementi nell'ordine");
+        }
+
         double totalFood = 0.0;
         double totalDrink = 0.0;
         int nGelati = 0;
