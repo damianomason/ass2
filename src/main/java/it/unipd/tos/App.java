@@ -10,4 +10,8 @@ public class App
     {
         System.out.println( "Hello World!" );
     }
+    
+    public void notCovered() {
+        Sytstem.out.println( "This code is not covered" );
+    }
 }
