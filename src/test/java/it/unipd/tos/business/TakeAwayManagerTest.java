@@ -7,13 +7,13 @@ import it.unipd.tos.business.TakeAwayManager;
 import it.unipd.tos.business.exception.TakeAwayBillException;
 import it.unipd.tos.model.MenuItem;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
-import static org.junit.Assert.assertEquals;
-
+import it.unipd.tos.model.Order;
 import it.unipd.tos.model.User;
 import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 public class TakeAwayManagerTest {
     @Test
@@ -133,7 +133,7 @@ public class TakeAwayManagerTest {
     }
 
     @Test
-    public void ShowExceptionMessageToEmployTest() throws TakeAwayBillException {
+    public void ShowExceptionMessageToEmployTest() {
         List<MenuItem> itemsOrdered = new ArrayList<MenuItem>();
         TakeAwayManager testBill = new TakeAwayManager();
         User user = new User("Pino", 17);
@@ -161,8 +161,121 @@ public class TakeAwayManagerTest {
         try {
             assertEquals(3.5, testBill.getOrderPrice(itemsOrdered, user), 0.0);
         }
-        catch (TakeAwayBillException exc){
-            exc.getMessage();
+        catch (TakeAwayBillException e){
+            System.out.println(e.getMessage());
         }
+    }
+
+    @Test
+    public void OfferOrdersToTenMinorsAtSpecificTimeSizeOfListTest() {
+        List<MenuItem> itemsOrdered = new ArrayList<MenuItem>();
+        TakeAwayManager testBill = new TakeAwayManager();
+        List<User> userList = new ArrayList<User>();
+        for(int i = 0; i < 20; i++){
+            Integer n = new Random().nextInt();
+            String name = n.toString();
+            userList.add(new User(name, i+8));
+        }
+
+        Iterator<User> it = userList.iterator();
+        for(int i = 0; i < userList.size(); i++) {
+            User user = it.next();
+            int h, m;
+            itemsOrdered.add(new MenuItem("Banana Split", MenuItem.items.Gelato, 4.00));
+            itemsOrdered.add(new MenuItem("Buonino", MenuItem.items.Budino, 3.00));
+            itemsOrdered.add(new MenuItem("Coca Cola", MenuItem.items.Bevanda, 4.00));
+            if(i < userList.size()/2){
+                h = 18;
+                m = 30;
+            }
+            else{
+                h = 16;
+                m = 45;
+            }
+            testBill.addOrder(itemsOrdered, user, h , m);
+        }
+        testBill.freeOrder();
+
+        assertFalse(testBill.getLessWinners());
+        assertEquals(10, testBill.getWinners().size());
+    }
+
+    @Test
+    public void OfferOrdersToTenMinorsAtSpecificTimeOrderPriceIsZeroTest() {
+        List<MenuItem> itemsOrdered = new ArrayList<MenuItem>();
+        TakeAwayManager testBill = new TakeAwayManager();
+        List<User> userList = new ArrayList<User>();
+        for(int i = 0; i < 20; i++){
+            Integer n = new Random().nextInt();
+            String name = n.toString();
+            userList.add(new User(name, i+8));
+        }
+
+        Iterator<User> it = userList.iterator();
+        for(int i = 0; i < userList.size(); i++) {
+            User user = it.next();
+            int h, m;
+            itemsOrdered.add(new MenuItem("Banana Split", MenuItem.items.Gelato, 4.00));
+            itemsOrdered.add(new MenuItem("Buonino", MenuItem.items.Budino, 3.00));
+            itemsOrdered.add(new MenuItem("Coca Cola", MenuItem.items.Bevanda, 4.00));
+            if(i < userList.size()/2){
+                h = 18;
+                m = 30;
+            }
+            else{
+                h = 16;
+                m = 45;
+            }
+            testBill.addOrder(itemsOrdered, user, h , m);
+        }
+        testBill.freeOrder();
+
+        List expected = new ArrayList(Collections.nCopies(testBill.getWinners().size(), 0));
+        List result = new ArrayList();
+        for (User winner : testBill.getWinners()) {
+            for(Order order : testBill.getOrders()) {
+                if(order.getUser().getName() == winner.getName()) {
+                    if(order.getTotal() == 0) {
+                        result.add(0);
+                    }
+                }
+            }
+        }
+
+        assertFalse(testBill.getLessWinners());
+        assertEquals(expected, result);
+    }
+
+    @Test
+    public void OfferOrdersToTenMinorsAtSpecificTimeOLessTanTenMinorsTest() {
+        List<MenuItem> itemsOrdered = new ArrayList<MenuItem>();
+        TakeAwayManager testBill = new TakeAwayManager();
+        List<User> userList = new ArrayList<User>();
+        for(int i = 5; i < 20; i++){
+            Integer n = new Random().nextInt();
+            String name = n.toString();
+            userList.add(new User(name, i+8));
+        }
+
+        Iterator<User> it = userList.iterator();
+        for(int i = 0; i < userList.size(); i++) {
+            User user = it.next();
+            int h, m;
+            itemsOrdered.add(new MenuItem("Banana Split", MenuItem.items.Gelato, 4.00));
+            itemsOrdered.add(new MenuItem("Buonino", MenuItem.items.Budino, 3.00));
+            itemsOrdered.add(new MenuItem("Coca Cola", MenuItem.items.Bevanda, 4.00));
+            if(i < userList.size()/2){
+                h = 18;
+                m = 30;
+            }
+            else{
+                h = 16;
+                m = 45;
+            }
+            testBill.addOrder(itemsOrdered, user, h , m);
+        }
+        testBill.freeOrder();
+
+        assertTrue(testBill.getLessWinners());
     }
 }
